@@ -1,0 +1,7 @@
+srai
+torch
+diffusers
+transformers
+torchvision
+denoising_diffusion_pytorch
+pytorch-lightning

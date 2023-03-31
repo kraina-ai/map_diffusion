@@ -71,8 +71,6 @@ def get_celeba_module(
         train_data = make_subset(subset_train, train_data)
     if subset_test is not None:
         test_data = make_subset(subset_test, test_data)
-    print(len(train_data))
-    print(len(test_data))
     return LightingDataModule(
         train_data,
         test_data,

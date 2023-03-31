@@ -4,3 +4,8 @@
 /.ipynb_checkpoints
 /data
 /srai
+/.idea
+/.vscode
+/cache
+/files
+coverage.xml

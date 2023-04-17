@@ -12,7 +12,7 @@ class LightingDataModule(pl.LightningDataModule):
         train_dataset: Dataset,
         test_dataset: Dataset,
         batch_size: int = 4,
-        num_workers: int = 0,
+        num_workers: int = 16,
         pin_memory: bool = True,
     ):
         super().__init__()

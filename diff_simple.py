@@ -1,5 +1,5 @@
 from denoising_diffusion_pytorch import GaussianDiffusion, Unet
-from nn import Diffusion
+from trainint_utils.trainint_utils.nn import Diffusion
 from torchvision import transforms
 from dataset_lighting import get_celeba_module, LightingDataModule
 from train import train_model

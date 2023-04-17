@@ -9,3 +9,4 @@
 /cache
 /files
 coverage.xml
+.pdm-python

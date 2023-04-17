@@ -1,0 +1,17 @@
+[tool.pdm]
+
+[project]
+name = "map_generation"
+version = "0.0.1"
+description = "TODO"
+authors = [
+    {name = "mprzymus", email = "pzrymus@gmail.com"},
+]
+dependencies = ["srai", "torch", "diffusers", "transformers", "datasets", "torchvision", "denoising-diffusion-pytorch", "pytorch-lightning", "requests"]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

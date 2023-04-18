@@ -7,7 +7,18 @@ description = "TODO"
 authors = [
     {name = "mprzymus", email = "pzrymus@gmail.com"},
 ]
-dependencies = ["srai", "torch", "diffusers", "transformers", "datasets", "torchvision", "denoising-diffusion-pytorch", "pytorch-lightning", "requests"]
+dependencies = [
+    "srai",
+    "torch",
+    "diffusers",
+    "transformers",
+    "datasets",
+    "torchvision",
+    "denoising-diffusion-pytorch",
+    "pytorch-lightning",
+    "requests",
+    "mapbox-vector-tile>=2.0.1",
+]
 requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}

@@ -11,3 +11,4 @@
 coverage.xml
 .pdm-python
 wroclaw_testing_script
+build/

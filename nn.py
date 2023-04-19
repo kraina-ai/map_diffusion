@@ -181,7 +181,7 @@ class LightingStableDiffusion(pl.LightningModule):
             (latents.shape[0],),
             device=self.device,
         ).long()
-        timesteps, model_pred = self.sample(
+        model_pred = self.sample(
             latents, encoder_hidden_states, noise, timesteps
         )
         loss = self.calc_loss(latents, noise, timesteps, model_pred)
@@ -204,7 +204,7 @@ class LightingStableDiffusion(pl.LightningModule):
         noisy_latents = self.noise_scheduler.add_noise(latents, noise, timesteps)
 
         model_pred = self.unet(noisy_latents, timesteps, encoder_hidden_states).sample
-        return timesteps, model_pred
+        return model_pred
 
     def calc_hidden_state(self, batch):
         encoder_hidden_states = self.text_encoder(

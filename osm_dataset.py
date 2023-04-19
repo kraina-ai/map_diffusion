@@ -1,3 +1,5 @@
+import datetime
+import os
 from torch.utils.data import Dataset
 from datasets import load_dataset
 import pandas as pd
@@ -38,8 +40,11 @@ class TextToImageDataset(Dataset):
         resolution=256,
         center_crop=False,
         random_flip=False,
+        save_texts=False,
     ) -> None:
         super().__init__()
+        self.texts = []
+        self.save_texts = save_texts
         self.n_columns = n_columns
         self.transform = transforms.Compose(
             [
@@ -57,9 +62,13 @@ class TextToImageDataset(Dataset):
             ]
         )
         self.dataset = load_dataset(path)
-        self.dataset = self.dataset.map(self.prepare_data, batched=True).with_format(
-            "pt"
-        )
+        self.dataset = self.dataset.map(
+            self.prepare_data, batched=True, load_from_cache_file=(not self.save_texts)
+        ).with_format("pt")
+        if self.save_texts:
+            pd.Series(self.texts).to_csv(
+                os.path.join(path, f"texts_{str(datetime.datetime.now())}.csv")
+            )
 
     def prepare_data(self, examples):
         examples["input_ids"] = self.prepare_text(examples)
@@ -81,8 +90,11 @@ class TextToImageDataset(Dataset):
         captions = df.apply(
             lambda row: create_sentence(row, n_columns=self.n_columns), axis=1
         )
+        captions_as_list = captions.tolist()
+        if self.save_texts:
+            self.texts.extend(captions_as_list)
         caption_tensor: torch.Tensor = tokenizer(
-            captions.tolist(),
+            captions_as_list,
             max_length=tokenizer.model_max_length,
             padding="max_length",
             truncation=True,

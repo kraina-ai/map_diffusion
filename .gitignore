@@ -12,3 +12,6 @@ coverage.xml
 .pdm-python
 wroclaw_testing_script
 build/
+EDA/cache
+EDA/*.json
+EDA/*.mvt

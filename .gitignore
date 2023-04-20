@@ -13,6 +13,7 @@ coverage.xml
 wroclaw_testing_script
 build/
 map_generation/EDA/cache
+map_generation/EDA/test-npm/node_modules
 map_generation/EDA/**/*.json
 map_generation/EDA/**/*.mvt
 

@@ -1,9 +1,5 @@
 #!/bin/sh
 source .venv/bin/activate
-ls result_path
-mkdir result_path/logs
-touch result_path/logs/some_log.txt
-echo 1234 >> qwerty 
 accelerate launch --mixed_precision="fp16" --config_file=config_accelerate.yaml  map_generation/train_text_to_image.py \
     --train_batch_size=1 \
     --gradient_accumulation_steps=1 \

@@ -8,8 +8,6 @@ import torchvision.transforms as transforms
 from transformers import CLIPTokenizer
 from config import BASE_MODEL_NAME
 
-tokenizer = CLIPTokenizer.from_pretrained(BASE_MODEL_NAME, subfolder="tokenizer")
-
 
 def get_columns(row, n_columns=5) -> pd.Series:
     not_zeros = row != 0
@@ -41,6 +39,7 @@ class TextToImageDataset(Dataset):
         center_crop=False,
         random_flip=False,
         save_texts=False,
+        tokenizer_path: str = BASE_MODEL_NAME
     ) -> None:
         super().__init__()
         self.texts = []
@@ -61,6 +60,7 @@ class TextToImageDataset(Dataset):
                 transforms.Normalize([0.5], [0.5]),
             ]
         )
+        self.tokenizer = CLIPTokenizer.from_pretrained(tokenizer_path, subfolder="tokenizer")
         self.dataset = load_dataset(path)
         self.dataset = self.dataset.map(
             self.prepare_data, batched=True, load_from_cache_file=(not self.save_texts)
@@ -93,9 +93,9 @@ class TextToImageDataset(Dataset):
         captions_as_list = captions.tolist()
         if self.save_texts:
             self.texts.extend(captions_as_list)
-        caption_tensor: torch.Tensor = tokenizer(
+        caption_tensor: torch.Tensor = self.tokenizer(
             captions_as_list,
-            max_length=tokenizer.model_max_length,
+            max_length=self.tokenizer.model_max_length,
             padding="max_length",
             truncation=True,
             return_tensors="pt",

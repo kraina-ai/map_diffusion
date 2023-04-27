@@ -14,7 +14,6 @@ from torch import nn as nn
 from torch.nn import functional as F
 from torchmetrics.image.fid import FrechetInceptionDistance
 from transformers import CLIPTextModel
-from imagen_pytorch import Imagen
 
 
 @torch.no_grad()
@@ -39,59 +38,6 @@ def fid_score(real_samples, fake_samples, inception_v3):
     fid_value = calculate_frechet_distance(m1, s1, m2, s2)
     return fid_value
 
-
-class ImagenModule(pl.LightningModule):
-    def __init__(
-        self,
-        imagen_model: Imagen,
-        learning_rate: float = 1e-5,
-        count_fid: bool = True,
-    ) -> None:
-        super().__init__()
-        self.model = imagen_model
-        self.lr = learning_rate
-        self.count_fid = count_fid
-
-    def configure_optimizers(self):
-        return torch.optim.Adam(
-            params=self.parameters(),
-            lr=self.lr,
-            # weight_decay=5e-4,
-        )
-
-    def training_step(self, batch, batch_idx: int):
-        img, text = batch
-        loss = self.model(
-            img, texts=text, unet_number=torch.randint(low=1, high=3, size=(1,)).item()
-        )
-        self.log("train/loss", loss, on_epoch=True, on_step=True)
-        return loss
-
-    def on_validation_epoch_end(self) -> None:
-        pass
-        # if self.count_fid is not None:
-        #     with torch.no_grad():
-        #         gen = self.model.sample(batch_size=32)
-
-        #     self.fid.update(gen, real=False)
-        #     fid_value = self.fid.compute()
-        #     self.fid.reset()
-        #     self.log(
-        #         "test/fid",
-        #         fid_value,
-        #         on_epoch=True,
-        #         on_step=False,
-        #         prog_bar=True,
-        #     )
-
-    def validation_step(self, batch, batch_idx: int):
-        img, text = batch
-        loss = self.model(
-            img, texts=text, unet_number=torch.randint(low=1, high=3, size=(1,)).item()
-        )
-
-        self.log("test/loss", loss, on_epoch=True, on_step=False, prog_bar=True)
-        return loss
 
 
 class Diffusion(pl.LightningModule):

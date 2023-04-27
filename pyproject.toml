@@ -8,7 +8,6 @@ authors = [
     {name = "mprzymus", email = "pzrymus@gmail.com"},
 ]
 dependencies = [
-    "srai @ git+https://github.com/srai-lab/srai.git",
     "torch",
     "diffusers @ git+https://github.com/huggingface/diffusers.git",
     "transformers",
@@ -20,6 +19,7 @@ dependencies = [
     "mapbox-vector-tile==1.0.0",
     "accelerate>=0.18.0",
     "protobuf==3.20.3",
+    "tensorboard>=2.12.2",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

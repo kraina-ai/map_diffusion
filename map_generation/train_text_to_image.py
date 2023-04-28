@@ -17,7 +17,6 @@ import argparse
 import logging
 import math
 import os
-import random
 from pathlib import Path
 
 import accelerate
@@ -30,10 +29,8 @@ import transformers
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import ProjectConfiguration, set_seed
-from datasets import load_dataset
 from huggingface_hub import create_repo, upload_folder
 from packaging import version
-from torchvision import transforms
 from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
 
@@ -49,7 +46,7 @@ from diffusers.training_utils import EMAModel
 from diffusers.utils import check_min_version, deprecate, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
 
-from config import DATA_DIR, N_COLUMNS, BASE_MODEL_NAME, get_unet
+from config import CHECKPOINTS_DIR, DATA_DIR, EPOCHS, N_COLUMNS, BASE_MODEL_NAME, get_unet, BATCH_SIZE
 from osm_dataset import TextToImageDataset
 
 if is_wandb_available():
@@ -236,10 +233,10 @@ def parse_args():
     parser.add_argument(
         "--train_batch_size",
         type=int,
-        default=16,
+        default=BATCH_SIZE,
         help="Batch size (per device) for the training dataloader.",
     )
-    parser.add_argument("--num_train_epochs", type=int, default=100)
+    parser.add_argument("--num_train_epochs", type=int, default=EPOCHS)
     parser.add_argument(
         "--max_train_steps",
         type=int,
@@ -1006,7 +1003,8 @@ def main():
             unet=unet,
             revision=args.revision,
         )
-        pipeline.save_pretrained(args.output_dir)
+        print(f"saving into {args.output_dir}/{CHECKPOINTS_DIR}")
+        pipeline.save_pretrained(f"{args.output_dir}/{CHECKPOINTS_DIR}")
 
         if args.push_to_hub:
             upload_folder(

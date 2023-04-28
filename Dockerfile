@@ -25,10 +25,11 @@ RUN pip install accelerate
 #create project files
 COPY run.sh config_accelerate.yaml pyproject.toml pdm.lock README.md /app/
 COPY map_generation/ /app/map_generation
-COPY models/stable_unet_init/ /app/models/stable_unet_init
+# COPY models/stable_unet_init/ /app/models/stable_unet_init
 WORKDIR /app
-ARG src="data/tiles/Athens, Greece"
-COPY ${src} ./data
+ARG src="data/tiles"
+# for local data
+# COPY ${src} ./data 
 VOLUME ./result_path
 ENTRYPOINT ["/bin/bash", "run.sh"]
 

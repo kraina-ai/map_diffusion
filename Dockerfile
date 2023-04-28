@@ -7,8 +7,7 @@ RUN pip3 install pdm
 
 # # copy files
 
-COPY run.sh config_accelerate.yaml pyproject.toml pdm.lock README.md /app/
-COPY map_generation/ /app/map_generation
+COPY pyproject.toml pdm.lock README.md /app/
 
 # # install dependencies and project into the local packages directory
 WORKDIR /app
@@ -26,6 +25,7 @@ RUN pip install accelerate
 #create project files
 COPY run.sh config_accelerate.yaml pyproject.toml pdm.lock README.md /app/
 COPY map_generation/ /app/map_generation
+COPY models/stable_unet_init/ /app/models/stable_unet_init
 WORKDIR /app
 ARG src="data/tiles/Athens, Greece"
 COPY ${src} ./data

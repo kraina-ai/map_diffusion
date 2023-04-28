@@ -8,4 +8,3 @@ accelerate launch --mixed_precision="fp16" --config_file=config_accelerate.yaml 
     --lr_scheduler="constant" --lr_warmup_steps=0 \
     --output_dir="result_path" \
     --max_train_steps=4 \
-    --dataset_name=data

@@ -9,7 +9,7 @@ authors = [
 ]
 dependencies = [
     "torch",
-    "diffusers @ git+https://github.com/huggingface/diffusers.git",
+    "diffusers>=0.16.0",
     "transformers",
     "datasets>=2.11.0",
     "torchvision",
@@ -25,6 +25,7 @@ dependencies = [
     "vt2geojson>=0.2.1",
     "momepy>=0.5.4",
     "matplotlib>=3.7.1",
+    "black>=23.3.0",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

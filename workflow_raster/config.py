@@ -1,0 +1,10 @@
+DEVICE="cuda"
+DATA_DIR="mprzymus/osm_tiles_small"
+CHECKPOINTS_DIR = "model"
+LOGS_DIR = "logs"
+BASE_MODEL_NAME = "OFA-Sys/small-stable-diffusion-v0"
+BATCH_SIZE = 1
+EPOCHS = 2
+MODEL_NAME = "testing_workflow"
+LEARNING_RAGE = 1e-5
+N_COLUMNS = 5

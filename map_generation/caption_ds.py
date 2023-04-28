@@ -1,13 +1,16 @@
 import os
-from tkinter import NO
 
+import datasets
 import pandas as pd
-import torch
 from torch.utils.data import Dataset
 from torchvision.io import read_image
 from torchvision.io.image import ImageReadMode
-import datasets
-from tqdm import tqdm
+
+"""
+DEPRECATED
+
+File contains old, not used version of reading dataset without using 
+"""
 
 
 def read_file(file_path: str):

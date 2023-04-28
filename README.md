@@ -1,5 +1,9 @@
 # map_generation
 
+##
+
+To see workflow process use notebooks from workflow_raster. It also contains less memory consuming training procedure.
+
 ## Run code in container
 
 - specify  configs in config.py (dirs inside container, base model, batch size, epoch, n_columns used to generate prompt, dataset)

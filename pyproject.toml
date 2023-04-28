@@ -16,12 +16,15 @@ dependencies = [
     "denoising-diffusion-pytorch",
     "pytorch-lightning",
     "requests",
-    "mapbox-vector-tile==1.0.0",
+    "mapbox-vector-tile>=1.2.1",
     "accelerate>=0.18.0",
     "protobuf==3.20.3",
     "tensorboard>=2.12.2",
     "srai==0.1.1",
     "notebook>=6.5.4",
+    "vt2geojson>=0.2.1",
+    "momepy>=0.5.4",
+    "matplotlib>=3.7.1",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

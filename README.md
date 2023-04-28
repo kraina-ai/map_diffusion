@@ -1,6 +1,26 @@
 # map_generation
 
-##
+## Project init
+
+1. Install [PDM](https://pdm.fming.dev/latest) (only if not already installed)
+
+    ```sh
+    pip install pdm
+    ```
+
+2. Install package locally (will download all dev packages and create a local venv)
+
+    ```sh
+    # Optional if you want to create venv in a specific version. More info: https://pdm.fming.dev/latest/usage/venv/#create-a-virtualenv-yourself
+    pdm venv create 3.10 # tested version
+
+    pdm install
+    ```
+
+3. There is some problem with kaleido, you might have to install it with pip if you need it.
+
+
+## Notebooks
 
 To see workflow process use notebooks from workflow_raster. It also contains less memory consuming training procedure.
 

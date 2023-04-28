@@ -25,9 +25,6 @@ class LightingDataModule(pl.LightningDataModule):
     def train_dataloader(self) -> DataLoader:
         return self._dataloader(self.train_dataset, shuffle=True)
 
-    def val_dataloader(self) -> DataLoader:
-        return self._dataloader(self.test_dataset, shuffle=False)
-
     def _dataloader(
         self,
         dataset: Dataset,

@@ -22,7 +22,7 @@ def train_model(
     )
 
     early_stopping = EarlyStopping(
-        monitor="test/loss",
+        monitor="train/loss",
         mode="min",
         patience=100,
         strict=True,

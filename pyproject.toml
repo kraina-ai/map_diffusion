@@ -20,17 +20,18 @@ dependencies = [
     "accelerate>=0.18.0",
     "protobuf==3.20.3",
     "tensorboard>=2.12.2",
-    "srai==0.1.1",
     "notebook>=6.5.4",
     "vt2geojson>=0.2.1",
     "momepy>=0.5.4",
     "matplotlib>=3.7.1",
     "black>=23.3.0",
+    "srai[plotting]>=0.1.1",
+    "kaleido>=0.2.1",
+    "ipywidgets==7.7.2",
 ]
 requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
-
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"

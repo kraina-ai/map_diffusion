@@ -27,7 +27,7 @@ def create_sentence(row: pd.Series, n_columns: int = 5) -> str:
         + ("s " if value > 1 else space)
         for (field, value) in row[columns].items()
     ]
-    return "Map of area containing: " + "".join(ls) + "."
+    return "OSM of area containing: " + "".join(ls) + "."
 
 
 class TextToImageDataset(Dataset):

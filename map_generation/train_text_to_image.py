@@ -46,7 +46,15 @@ from diffusers.training_utils import EMAModel
 from diffusers.utils import check_min_version, deprecate, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
 
-from config import CHECKPOINTS_DIR, DATA_DIR, EPOCHS, N_COLUMNS, BASE_MODEL_NAME, get_unet, BATCH_SIZE
+from config import (
+    CHECKPOINTS_DIR,
+    DATA_DIR,
+    EPOCHS,
+    N_COLUMNS,
+    BASE_MODEL_NAME,
+    get_unet,
+    BATCH_SIZE,
+)
 from osm_dataset import TextToImageDataset
 
 if is_wandb_available():
@@ -453,9 +461,14 @@ def parse_args():
         "--custom_unet",
         type=bool,
         default=False,
-        help=(
-            "To get unet with function from config"
-        ),
+        help=("To get unet with function from config"),
+    )
+
+    parser.add_argument(
+        "--p_uncond",
+        type=float,
+        default=0.0,
+        help=("Classifier free guidance conditioning dropout"),
     )
 
     args = parser.parse_args()
@@ -465,7 +478,7 @@ def parse_args():
 
     # Sanity checks
     # if args.dataset_name is None and args.train_data_dir is None:
-        # raise ValueError("Need either a dataset name or a training folder.")
+    # raise ValueError("Need either a dataset name or a training folder.")
 
     # default to using the same revision for the non-ema model if not specified
     if args.non_ema_revision is None:
@@ -709,7 +722,6 @@ def main():
     column_names = dataset["train"].column_names
     print(column_names)
 
-
     with accelerator.main_process_first():
         if args.max_train_samples is not None:
             dataset["train"] = (
@@ -718,7 +730,7 @@ def main():
                 .select(range(args.max_train_samples))
             )
         # Set the training transforms
-        train_dataset = dataset["train"]#.with_transform(preprocess_train)
+        train_dataset = dataset["train"]  # .with_transform(preprocess_train)
 
     def collate_fn(examples):
         pixel_values = torch.stack([example["pixel_values"] for example in examples])
@@ -884,7 +896,12 @@ def main():
                 noisy_latents = noise_scheduler.add_noise(latents, noise, timesteps)
 
                 # Get the text embedding for conditioning
-                encoder_hidden_states = text_encoder(batch["input_ids"])[0]
+                is_class_cond = (
+                    torch.rand(size=(batch[0].shape[0], 1), device=batch[0].device)
+                    >= args.p_uncond
+                )
+                cond_with_empties = batch["input_ids"] * is_class_cond.float()
+                encoder_hidden_states = text_encoder(cond_with_empties)[0]
 
                 # Get the target for loss depending on the prediction type
                 if noise_scheduler.config.prediction_type == "epsilon":

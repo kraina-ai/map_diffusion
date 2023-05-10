@@ -46,7 +46,7 @@ from diffusers.training_utils import EMAModel
 from diffusers.utils import check_min_version, deprecate, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
 
-from config import (
+from map_generation.config import (
     CHECKPOINTS_DIR,
     DATA_DIR,
     EPOCHS,
@@ -55,7 +55,7 @@ from config import (
     get_unet,
     BATCH_SIZE,
 )
-from osm_dataset import TextToImageDataset
+from map_generation.osm_dataset import TextToImageDataset
 
 if is_wandb_available():
     import wandb
@@ -554,6 +554,15 @@ def main():
         subfolder="tokenizer",
         revision=args.revision,
     )
+
+    empty_token: torch.Tensor = tokenizer(
+        "",
+        max_length=tokenizer.model_max_length,
+        padding="max_length",
+        truncation=True,
+        return_tensors="pt",
+    )["input_ids"].squeeze().to(accelerator.device)
+
     text_encoder = CLIPTextModel.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="text_encoder",
@@ -896,12 +905,14 @@ def main():
                 noisy_latents = noise_scheduler.add_noise(latents, noise, timesteps)
 
                 # Get the text embedding for conditioning
-                is_class_cond = (
-                    torch.rand(size=(batch[0].shape[0], 1), device=batch[0].device)
-                    >= args.p_uncond
+                empty_prob = torch.rand(
+                    size=(batch["input_ids"].shape[0],),
+                    device=batch["input_ids"].device,
                 )
-                cond_with_empties = batch["input_ids"] * is_class_cond.float()
-                encoder_hidden_states = text_encoder(cond_with_empties)[0]
+                should_be_empty = empty_prob < args.p_uncond
+                input_ids = batch["input_ids"]
+                input_ids[should_be_empty] = empty_token
+                encoder_hidden_states = text_encoder(input_ids)[0]
 
                 # Get the target for loss depending on the prediction type
                 if noise_scheduler.config.prediction_type == "epsilon":

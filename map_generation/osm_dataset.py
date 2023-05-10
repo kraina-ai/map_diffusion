@@ -6,7 +6,7 @@ import pandas as pd
 import torch
 import torchvision.transforms as transforms
 from transformers import CLIPTokenizer
-from .config import BASE_MODEL_NAME
+from map_generation.config import BASE_MODEL_NAME
 
 
 def get_columns(row, n_columns=5) -> pd.Series:

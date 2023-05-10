@@ -27,6 +27,7 @@ COPY run.sh config_accelerate.yaml pyproject.toml pdm.lock README.md /app/
 COPY map_generation/ /app/map_generation
 # COPY models/stable_unet_init/ /app/models/stable_unet_init
 WORKDIR /app
+RUN pip3 install -e .
 ARG src="data/tiles"
 # for local data
 # COPY ${src} ./data 

@@ -1,5 +1,6 @@
 import datetime
 import os
+from pathlib import Path
 from torch.utils.data import Dataset
 from datasets import load_dataset
 import pandas as pd
@@ -18,7 +19,9 @@ def get_columns(row, n_columns=5) -> pd.Series:
         return columns.sample(n_columns)
 
 
-def create_sentence(row: pd.Series, n_columns: int = 5) -> str:
+def create_sentence(
+    row: pd.Series, n_columns: int = 5, placeholder_token: str="OSM"
+) -> str:
     columns = get_columns(row, n_columns)
     space = " "
     underscore = "_"
@@ -27,21 +30,24 @@ def create_sentence(row: pd.Series, n_columns: int = 5) -> str:
         + ("s " if value > 1 else space)
         for (field, value) in row[columns].items()
     ]
-    return "OSM of area containing: " + "".join(ls) + "."
+    name = placeholder_token
+    return f"{name} of area containing: " + "".join(ls) + "."
 
 
 class TextToImageDataset(Dataset):
     def __init__(
         self,
-        path,
-        n_columns=5,
-        resolution=256,
-        center_crop=False,
-        random_flip=False,
-        save_texts=False,
+        path: str | Path,
+        n_columns: int = 5,
+        resolution: int = 256,
+        center_crop: bool = False,
+        random_flip: bool = False,
+        save_texts: bool = False,
         tokenizer_path: str = BASE_MODEL_NAME,
+        placeholder_token: str = "OSM",
     ) -> None:
         super().__init__()
+        self.placeholder_token = placeholder_token
         self.texts = []
         self.save_texts = save_texts
         self.n_columns = n_columns
@@ -90,7 +96,10 @@ class TextToImageDataset(Dataset):
     def prepare_text(self, records):
         df = pd.DataFrame(dict(records)).drop(columns=["image"])
         captions = df.apply(
-            lambda row: create_sentence(row, n_columns=self.n_columns), axis=1
+            lambda row: create_sentence(
+                row, n_columns=self.n_columns, placeholder_token=self.placeholder_token
+            ),
+            axis=1,
         )
         captions_as_list = captions.tolist()
         if self.save_texts:

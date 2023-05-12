@@ -6,5 +6,6 @@ accelerate launch --mixed_precision="fp16" --config_file=config_accelerate.yaml 
     --lr_scheduler="constant" --lr_warmup_steps=0 \
     --output_dir="result_path" \
     --snr_gamma=5.0 \
-    --p_uncond=0.2 
-    # --use_ema \
+    --p_uncond=0.1 \
+    --lr_scheduler="constant" --lr_warmup_steps=0 \
+    --use_ema

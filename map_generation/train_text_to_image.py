@@ -54,6 +54,7 @@ from map_generation.config import (
     BASE_MODEL_NAME,
     get_unet,
     BATCH_SIZE,
+    LEARNING_RAGE
 )
 from map_generation.osm_dataset import TextToImageDataset
 
@@ -265,7 +266,7 @@ def parse_args():
     parser.add_argument(
         "--learning_rate",
         type=float,
-        default=1e-4,
+        default=LEARNING_RAGE,
         help="Initial learning rate (after the potential warmup period) to use.",
     )
     parser.add_argument(

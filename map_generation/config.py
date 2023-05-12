@@ -7,5 +7,5 @@ DEVICE = "cuda"
 EPOCHS = 100
 MODEL_NAME = "stable_maps"
 LEARNING_RAGE = 1e-5
-N_COLUMNS = 5
+N_COLUMNS = 8
 get_unet = None

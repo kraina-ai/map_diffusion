@@ -63,8 +63,7 @@ class TextToImageDataset(Dataset):
         self.tokenizer = CLIPTokenizer.from_pretrained(
             tokenizer_path, subfolder="tokenizer"
         )
-        self.dataset = load_dataset(path)
-        self.dataset = self.dataset.map(
+        self.dataset = load_dataset(path).map(
             self.prepare_data, batched=True, load_from_cache_file=(not self.save_texts)
         ).with_format("pt")
         if self.save_texts:

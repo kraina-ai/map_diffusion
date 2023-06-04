@@ -24,6 +24,12 @@ class LightingDataModule(pl.LightningDataModule):
 
     def train_dataloader(self) -> DataLoader:
         return self._dataloader(self.train_dataset, shuffle=True)
+    
+    def train_dataloader(self) -> DataLoader:
+        if self.test_dataset is not None:
+            return self._dataloader(self.test_dataset, shuffle=True)
+        else:
+            raise Exception("test datset is None")
 
     def _dataloader(
         self,

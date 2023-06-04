@@ -29,6 +29,6 @@ class SegmentationDataset(t_data.Dataset):
             raise IndexError()
         img_path = self.root / self.indexes[idx]
         mask_path = self.root / "mask" / self.indexes[idx]
-        image = read_image(str(img_path), ImageReadMode.RGB)
-        mask = read_image(str(mask_path), ImageReadMode.GRAY)
+        image = read_image(str(img_path), ImageReadMode.RGB) / 255
+        mask = read_image(str(mask_path), ImageReadMode.GRAY) / 255
         return image, mask

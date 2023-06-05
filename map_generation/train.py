@@ -24,7 +24,7 @@ def train_model(
     early_stopping = EarlyStopping(
         monitor=early_stop_metric,
         mode="min",
-        patience=100,
+        patience=5,
         strict=True,
         check_finite=True,
     )

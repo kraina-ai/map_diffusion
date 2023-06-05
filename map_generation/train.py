@@ -3,7 +3,7 @@ from config import CHECKPOINTS_DIR, LOGS_DIR
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
 
-    
+
 def train_model(
     model: pl.LightningModule,
     datamodule: pl.LightningDataModule,
@@ -11,24 +11,23 @@ def train_model(
     name: str = "model",
     gpu: bool = True,
     verbose: bool = True,
+    early_stop_metric="train_loss",
 ) -> dict[str, float]:
-
     model_chkpt = ModelCheckpoint(
         dirpath=CHECKPOINTS_DIR,
         filename=name,
-        monitor="train/loss",
+        monitor=early_stop_metric,
         mode="min",
         verbose=verbose,
     )
 
     early_stopping = EarlyStopping(
-        monitor="train/loss",
+        monitor=early_stop_metric,
         mode="min",
         patience=100,
         strict=True,
         check_finite=True,
     )
-    # bar = LitProgressBar()
     trainer = pl.Trainer(
         logger=TensorBoardLogger(
             save_dir=LOGS_DIR,

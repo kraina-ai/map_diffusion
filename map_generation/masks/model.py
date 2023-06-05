@@ -10,6 +10,17 @@ from transformers import CLIPTextModel
 from typing import Callable
 
 
+class SegmentationModel(nn.Module):
+    def __init__(self, segmentation_base: nn.Module, out_conv_in=21) -> None:
+        super().__init__()
+        self.model = segmentation_base
+        self.out_layer = nn.Conv2d(out_conv_in, 1, 1)
+
+    def forward(self, x):
+        out = self.model(x)["out"]
+        return self.out_layer(out)
+
+
 class SegmentationModule(pl.LightningModule):
     def __init__(
         self,
@@ -17,7 +28,7 @@ class SegmentationModule(pl.LightningModule):
         learning_rate: float = 1e-4,
         loss: Callable[
             [torch.Tensor, torch.Tensor], torch.Tensor
-        ] = F.binary_cross_entropy,
+        ] = nn.BCEWithLogitsLoss(),
     ) -> None:
         super().__init__()
         self.model = segmentation_model
@@ -33,8 +44,8 @@ class SegmentationModule(pl.LightningModule):
         preds = self.model(x)
         loss = self.loss(preds, y)
         accuracy = self.accuracy(preds, y)
-        self.log(f"{task}/loss", loss, on_epoch=True, on_step=True)
-        self.log(f"{task}/acc", accuracy, on_epoch=True, on_step=True)
+        self.log(f"loss/{task}", loss, on_epoch=True, on_step=True)
+        self.log(f"acc/{task}", accuracy, on_epoch=True, on_step=True)
         return loss
 
     def training_step(self, batch, batch_idx: int):

@@ -697,11 +697,6 @@ requires_python = ">=3.6"
 summary = "A JupyterLab extension."
 
 [[package]]
-name = "kaleido"
-version = "0.2.1.post1"
-summary = "Static image export for web-based visualization libraries with zero dependencies"
-
-[[package]]
 name = "kiwisolver"
 version = "1.4.4"
 requires_python = ">=3.7"
@@ -1222,6 +1217,16 @@ requires_python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 summary = "C parser in Python"
 
 [[package]]
+name = "pyfunctional"
+version = "1.4.3"
+requires_python = ">=3.6.1,<4.0"
+summary = "Package for creating data pipelines with chain functional programming"
+dependencies = [
+    "dill>=0.2.5",
+    "tabulate<=1.0.0",
+]
+
+[[package]]
 name = "pygeos"
 version = "0.14"
 requires_python = ">=3.7"
@@ -1473,6 +1478,12 @@ summary = "Computer algebra system (CAS) in Python"
 dependencies = [
     "mpmath>=0.19",
 ]
+
+[[package]]
+name = "tabulate"
+version = "0.9.0"
+requires_python = ">=3.7"
+summary = "Pretty-print tabular data"
 
 [[package]]
 name = "tenacity"
@@ -1747,7 +1758,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:256f536beb62eed7a367b3b65939f8d6d21b1d3c1bbf8a934b568aa7e8db9c95"
+content_hash = "sha256:0a35cbcc204fe2e8b229c1f820f7d9642e6a29de3a010b8db0f8e6e00d88b3ce"
 
 [metadata.files]
 "absl-py 1.4.0" = [
@@ -2516,9 +2527,6 @@ content_hash = "sha256:256f536beb62eed7a367b3b65939f8d6d21b1d3c1bbf8a934b568aa7e
     {url = "https://files.pythonhosted.org/packages/35/ee/bc474830bae05e287a80db0b6e59d3904dcea604e61304c6334be2bea899/jupyterlab_widgets-1.1.4.tar.gz", hash = "sha256:ea6e7612725e94d0966d64c6344910686f4bf8610533cd40daeba6980659b14d"},
     {url = "https://files.pythonhosted.org/packages/47/78/b8db068414b354da1abd01dfc2326b8b3123d334173683941a075d36e3da/jupyterlab_widgets-1.1.4-py3-none-any.whl", hash = "sha256:769eb7bfef7e8ab70a7737104555531b09bcfba982f89465d2ae67b99b3f3e81"},
 ]
-"kaleido 0.2.1.post1" = [
-    {url = "https://files.pythonhosted.org/packages/86/4b/d668e288b694661d2fbfc2b972db69cf1f30f8b8a91be14dcf9f000cab16/kaleido-0.2.1.post1-py2.py3-none-manylinux2014_armv7l.whl", hash = "sha256:d313940896c24447fc12c74f60d46ea826195fc991f58569a6e73864d53e5c20"},
-]
 "kiwisolver 1.4.4" = [
     {url = "https://files.pythonhosted.org/packages/03/93/11790e8e81b89acd3a1c8a6b501f8a05b1c41beee0990582699cdda29557/kiwisolver-1.4.4-cp37-cp37m-win_amd64.whl", hash = "sha256:03baab2d6b4a54ddbb43bba1a3a2d1627e82d205c5cf8f4c924dc49284b87166"},
     {url = "https://files.pythonhosted.org/packages/08/14/2ee2b7013f6c7f92f76ee9e8368736410c24f404e70b0f882758493bdeec/kiwisolver-1.4.4-cp37-cp37m-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:02f79693ec433cb4b5f51694e8477ae83b3205768a6fb48ffba60549080e295b"},
@@ -3195,6 +3203,10 @@ content_hash = "sha256:256f536beb62eed7a367b3b65939f8d6d21b1d3c1bbf8a934b568aa7e
     {url = "https://files.pythonhosted.org/packages/5e/0b/95d387f5f4433cb0f53ff7ad859bd2c6051051cebbb564f139a999ab46de/pycparser-2.21.tar.gz", hash = "sha256:e644fdec12f7872f86c58ff790da456218b10f863970249516d60a5eaca77206"},
     {url = "https://files.pythonhosted.org/packages/62/d5/5f610ebe421e85889f2e55e33b7f9a6795bd982198517d912eb1c76e1a53/pycparser-2.21-py2.py3-none-any.whl", hash = "sha256:8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9"},
 ]
+"pyfunctional 1.4.3" = [
+    {url = "https://files.pythonhosted.org/packages/65/b8/134bf0187d5db42641e93a23c90e0ea20dcda2a8c148147ccc07ecde56e4/PyFunctional-1.4.3.tar.gz", hash = "sha256:11c313fe251b269c6506689135456a05bc5a6fa129c9d02b445f383d4f411e10"},
+    {url = "https://files.pythonhosted.org/packages/bf/04/5356e1e3f738d519991af1829b4868436c0c9fd6511107b4ad19aecb9bd6/PyFunctional-1.4.3-py3-none-any.whl", hash = "sha256:50f11ea3c386c4330c7a8be92c0736b4b6a5924bdbd00b8b93f93b0c7fe6f2b3"},
+]
 "pygeos 0.14" = [
     {url = "https://files.pythonhosted.org/packages/00/db/130fdda366f3e3f08984a3638d624ce10565fe306ac93429d04537a22f5b/pygeos-0.14-cp311-cp311-win_amd64.whl", hash = "sha256:6d41973d0361712e53d54489d0c1cc6d37b941e5c808bfd51c461e36c0b4758b"},
     {url = "https://files.pythonhosted.org/packages/05/5c/d72d59163655d29e6fd4c6ebf7f9b1e286b47c6adfb20ecfce7c6836e83c/pygeos-0.14-cp311-cp311-win32.whl", hash = "sha256:a5bae1772f0d333e38689bf691c23e3416d797711bfed8086d78c91d63cd373a"},
@@ -3668,6 +3680,10 @@ content_hash = "sha256:256f536beb62eed7a367b3b65939f8d6d21b1d3c1bbf8a934b568aa7e
 "sympy 1.11.1" = [
     {url = "https://files.pythonhosted.org/packages/2d/49/a2d03101e2d28ad528968144831d506344418ef1cc04839acdbe185889c2/sympy-1.11.1-py3-none-any.whl", hash = "sha256:938f984ee2b1e8eae8a07b884c8b7a1146010040fccddc6539c54f401c8f6fcf"},
     {url = "https://files.pythonhosted.org/packages/5a/36/4667b08bc45131fe655a27b1a112c1730f3244343c53a338f44d730bd6ba/sympy-1.11.1.tar.gz", hash = "sha256:e32380dce63cb7c0108ed525570092fd45168bdae2faa17e528221ef72e88658"},
+]
+"tabulate 0.9.0" = [
+    {url = "https://files.pythonhosted.org/packages/40/44/4a5f08c96eb108af5cb50b41f76142f0afa346dfa99d5296fe7202a11854/tabulate-0.9.0-py3-none-any.whl", hash = "sha256:024ca478df22e9340661486f85298cff5f6dcdba14f3813e8830015b9ed1948f"},
+    {url = "https://files.pythonhosted.org/packages/ec/fe/802052aecb21e3797b8f7902564ab6ea0d60ff8ca23952079064155d1ae1/tabulate-0.9.0.tar.gz", hash = "sha256:0095b12bf5966de529c0feb1fa08671671b3368eec77d7ef7ab114be2c068b3c"},
 ]
 "tenacity 8.2.2" = [
     {url = "https://files.pythonhosted.org/packages/d3/f0/6ccd8854f4421ce1f227caf3421d9be2979aa046939268c9300030c0d250/tenacity-8.2.2.tar.gz", hash = "sha256:43af037822bd0029025877f3b2d97cc4d7bb0c2991000a3d59d71517c5c969e0"},

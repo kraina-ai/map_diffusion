@@ -19,3 +19,4 @@ map_generation/EDA/**/*.json
 map_generation/EDA/**/*.mvt
 **/__pycache__
 **/.ipynb_checkpoints
+logs_cont/

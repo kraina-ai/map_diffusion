@@ -40,6 +40,7 @@ class TextToImageDataset(Dataset):
         random_flip=False,
         save_texts=False,
         tokenizer_path: str = BASE_MODEL_NAME,
+        cache_dir = None
     ) -> None:
         super().__init__()
         self.texts = []
@@ -63,8 +64,8 @@ class TextToImageDataset(Dataset):
         self.tokenizer = CLIPTokenizer.from_pretrained(
             tokenizer_path, subfolder="tokenizer"
         )
-        self.dataset = load_dataset(path).map(
-            self.prepare_data, batched=True, load_from_cache_file=(not self.save_texts)
+        self.dataset = load_dataset(path, cache_dir=cache_dir).map(
+            self.prepare_data, batched=True
         ).with_format("pt")
         if self.save_texts:
             pd.Series(self.texts).to_csv(

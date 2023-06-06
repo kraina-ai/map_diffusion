@@ -1,5 +1,5 @@
 #!/bin/sh
-accelerate launch --mixed_precision="fp16" --config_file=config_accelerate.yaml  map_generation/train_text_to_image.py \
+accelerate launch --mixed_precision="fp16"  map_generation/train_text_to_image.py \
     --gradient_accumulation_steps=1 \
     --gradient_checkpointing \
     --max_grad_norm=1 \

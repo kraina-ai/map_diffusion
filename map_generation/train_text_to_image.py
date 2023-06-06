@@ -47,6 +47,7 @@ from diffusers.utils import check_min_version, deprecate, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
 
 from map_generation.config import (
+    CACHE_DIR,
     CHECKPOINTS_DIR,
     DATA_DIR,
     EPOCHS,
@@ -722,7 +723,7 @@ def main():
     # download the dataset.
     if args.dataset_name is not None:
         dataset = TextToImageDataset(
-            path=args.dataset_name, n_columns=N_COLUMNS
+            path=args.dataset_name, n_columns=N_COLUMNS, cache_dir= os.path.join(args.output_dir, CACHE_DIR)
         ).to_huggingface_dataset()
     else:
         raise Exception("No dataset")

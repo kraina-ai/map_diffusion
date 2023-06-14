@@ -32,6 +32,10 @@ dependencies = [
     "pyfunctional>=1.4.3",
     "torchmetrics>=0.11.4",
     "opencv-python>=4.7.0.72",
+    "srai[osm]>=0.1.1",
+    "geopandas>=0.13.2",
+    "pandas>=2.0.2",
+    "shapely>=2.0.1",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

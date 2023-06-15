@@ -36,6 +36,7 @@ dependencies = [
     "geopandas>=0.13.2",
     "pandas>=2.0.2",
     "shapely>=2.0.1",
+    "numpy>=1.24.3",
 ]
 requires-python = ">=3.10"
 readme = "README.md"

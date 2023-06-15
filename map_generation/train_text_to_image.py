@@ -78,7 +78,7 @@ def log_validation(
     logger.info("Running validation... ")
 
     pipeline = StableDiffusionPipeline.from_pretrained(
-        BASE_MODEL_NAME,
+        args.pretrained_model_name_or_path,
         vae=vae,
         text_encoder=text_encoder,
         tokenizer=tokenizer,

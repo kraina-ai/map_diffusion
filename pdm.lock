@@ -9,7 +9,7 @@ summary = "Abseil Python Common Libraries, see https://github.com/abseil/abseil-
 
 [[package]]
 name = "accelerate"
-version = "0.20.3"
+version = "0.18.0"
 requires_python = ">=3.7.0"
 summary = "Accelerate"
 dependencies = [
@@ -17,7 +17,7 @@ dependencies = [
     "packaging>=20.0",
     "psutil",
     "pyyaml",
-    "torch>=1.6.0",
+    "torch>=1.4.0",
 ]
 
 [[package]]
@@ -1902,16 +1902,16 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:6c05e3663cfa974c7ed9675baa8554051cb46d01b933ca2c8428325a400c3a0e"
+content_hash = "sha256:35779437586617a944b2cf5a9db1e00f74bb6c7708a6cb4b0502376911a4c104"
 
 [metadata.files]
 "absl-py 1.4.0" = [
     {url = "https://files.pythonhosted.org/packages/79/c9/45ecff8055b0ce2ad2bfbf1f438b5b8605873704d50610eda05771b865a0/absl-py-1.4.0.tar.gz", hash = "sha256:d2c244d01048ba476e7c080bd2c6df5e141d211de80223460d5b3b8a2a58433d"},
     {url = "https://files.pythonhosted.org/packages/dd/87/de5c32fa1b1c6c3305d576e299801d8655c175ca9557019906247b994331/absl_py-1.4.0-py3-none-any.whl", hash = "sha256:0d3fe606adfa4f7db64792dd4c7aee4ee0c38ab75dfd353b7a83ed3e957fcb47"},
 ]
-"accelerate 0.20.3" = [
-    {url = "https://files.pythonhosted.org/packages/10/d3/5382aa337d3e67214003a17b06bfc07cf0334356b4e8aaf3b12b0d38c83f/accelerate-0.20.3-py3-none-any.whl", hash = "sha256:147183e7a2215f7bd45a7af3b986a963daa8a61fa58b0912b9473049e011ad15"},
-    {url = "https://files.pythonhosted.org/packages/1a/fe/5a4a583065c410f5a3dcb9b4f202e6b9191d3e965f007c63c85ea135cd46/accelerate-0.20.3.tar.gz", hash = "sha256:79a896978c20dac270083d42bf033f4c9a80dcdd6b946f1ca92d8d6d0f0f5ba9"},
+"accelerate 0.18.0" = [
+    {url = "https://files.pythonhosted.org/packages/28/16/d361c7716dc7b46c8f1ee77040b09d22e01f9b36f5159a139aed877a4bef/accelerate-0.18.0.tar.gz", hash = "sha256:1dd36fd972de4a6d0cffe5e4d6d30622fd853765f773b5582cf0796deefe1016"},
+    {url = "https://files.pythonhosted.org/packages/e7/87/25dd46811431cfc5e8d6ba8c80758cb3131574b271fbf06cf1b691dba8d4/accelerate-0.18.0-py3-none-any.whl", hash = "sha256:41a84ac94407d7dcf030caf0cdadc70496594aec27ea680207bdb15b95f8a602"},
 ]
 "aiohttp 3.8.4" = [
     {url = "https://files.pythonhosted.org/packages/03/e7/84b65e341b1f45753fea51158d8a9522e57a5ae804acbc6dc34edf07cea0/aiohttp-3.8.4-cp39-cp39-musllinux_1_1_aarch64.whl", hash = "sha256:bca5f24726e2919de94f047739d0a4fc01372801a3672708260546aa2601bf57"},

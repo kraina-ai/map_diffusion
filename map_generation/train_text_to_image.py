@@ -729,6 +729,7 @@ def main():
             path=args.dataset_name,
             n_columns=N_COLUMNS,
             cache_dir=os.path.join(args.output_dir, CACHE_DIR),
+            tokenizer_path=args.pretrained_model_name_or_path
         ).to_huggingface_dataset()
     else:
         raise Exception("No dataset")

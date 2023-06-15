@@ -17,7 +17,7 @@ dependencies = [
     "pytorch-lightning",
     "requests",
     "mapbox-vector-tile>=1.2.1",
-    "accelerate>=0.18.0",
+    "accelerate>=0.20.3",
     "protobuf==3.20.3",
     "tensorboard>=2.12.2",
     "notebook>=6.5.4",

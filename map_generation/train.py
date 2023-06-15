@@ -12,6 +12,7 @@ def train_model(
     gpu: bool = True,
     verbose: bool = True,
     early_stop_metric="train_loss",
+    patience: int = 5,
 ) -> dict[str, float]:
     model_chkpt = ModelCheckpoint(
         dirpath=CHECKPOINTS_DIR,
@@ -24,7 +25,7 @@ def train_model(
     early_stopping = EarlyStopping(
         monitor=early_stop_metric,
         mode="min",
-        patience=5,
+        patience=patience,
         strict=True,
         check_finite=True,
     )

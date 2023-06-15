@@ -503,14 +503,15 @@ def main():
     logging_dir = os.path.join(args.output_dir, args.logging_dir)
 
     accelerator_project_config = ProjectConfiguration(
-        total_limit=args.checkpoints_total_limit
+        total_limit=args.checkpoints_total_limit,
+        logging_dir=logging_dir,
+        project_dir=args.output_dir,
     )
 
     accelerator = Accelerator(
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         mixed_precision=args.mixed_precision,
         log_with=args.report_to,
-        logging_dir=logging_dir,
         project_config=accelerator_project_config,
     )
 
@@ -729,7 +730,7 @@ def main():
             path=args.dataset_name,
             n_columns=N_COLUMNS,
             cache_dir=os.path.join(args.output_dir, CACHE_DIR),
-            tokenizer_path=args.pretrained_model_name_or_path
+            tokenizer_path=args.pretrained_model_name_or_path,
         ).to_huggingface_dataset()
     else:
         raise Exception("No dataset")

@@ -45,9 +45,27 @@ class TokenizedDataset(Dataset):
         self,
         path,
         tokenizer_path: str = BASE_MODEL_NAME,
+        resolution=256,
+        center_crop=False,
+        random_flip=False,
         cache_dir=None,
     ) -> None:
         super().__init__()
+        self.transform = transforms.Compose(
+            [
+                transforms.Resize(
+                    resolution, interpolation=transforms.InterpolationMode.BILINEAR
+                ),
+                transforms.CenterCrop(resolution)
+                if center_crop
+                else transforms.RandomCrop(resolution),
+                transforms.RandomHorizontalFlip()
+                if random_flip
+                else transforms.Lambda(lambda x: x),
+                transforms.ToTensor(),
+                transforms.Normalize([0.5], [0.5]),
+            ]
+        )
         self.tokenizer = CLIPTokenizer.from_pretrained(
             tokenizer_path, subfolder="tokenizer"
         )
@@ -55,7 +73,8 @@ class TokenizedDataset(Dataset):
 
     def prepare_data(self, examples):
         examples["input_ids"] = self.tokenize(examples)
-        examples["pixel_values"] = [torch.tensor(img) for img in examples["pixel_values"]]
+        images = [image.convert("RGB") for image in examples["image"]]
+        examples["pixel_values"] = [self.transform(image) for image in images]
         return examples
 
     def __len__(self):
@@ -64,7 +83,7 @@ class TokenizedDataset(Dataset):
     def __getitem__(self, index) -> tuple[torch.Tensor, torch.Tensor]:
         record = self.dataset["train"][index]
         caption_tensor = record["input_ids"]
-        img = record["pixel_values"]
+        img = record["image"]
         return (img, caption_tensor)
 
     def tokenize(self, records):
@@ -88,9 +107,6 @@ class TextToImageDataset(Dataset):
         self,
         path,
         n_columns=5,
-        resolution=256,
-        center_crop=False,
-        random_flip=False,
         save_texts=False,
         cache_dir=None,
     ) -> None:
@@ -99,25 +115,8 @@ class TextToImageDataset(Dataset):
         self.texts = []
         self.save_texts = save_texts
         self.n_columns = n_columns
-        self.transform = transforms.Compose(
-            [
-                transforms.Resize(
-                    resolution, interpolation=transforms.InterpolationMode.BILINEAR
-                ),
-                transforms.CenterCrop(resolution)
-                if center_crop
-                else transforms.RandomCrop(resolution),
-                transforms.RandomHorizontalFlip()
-                if random_flip
-                else transforms.Lambda(lambda x: x),
-                transforms.ToTensor(),
-                transforms.Normalize([0.5], [0.5]),
-            ]
-        )
-        self.dataset = (
-            load_dataset(path, cache_dir=cache_dir)
-            .map(self.prepare_data, batched=True)
-            .with_format("pt")
+        self.dataset = load_dataset(path, cache_dir=cache_dir).map(
+            self.prepare_data, batched=True
         )
         if self.save_texts:
             pd.Series(self.texts).to_csv(
@@ -126,8 +125,6 @@ class TextToImageDataset(Dataset):
 
     def prepare_data(self, examples):
         examples["caption"] = self.prepare_text(examples)
-        images = [image.convert("RGB") for image in examples["image"]]
-        examples["pixel_values"] = [self.transform(image) for image in images]
         return examples
 
     def __len__(self):
@@ -150,4 +147,4 @@ class TextToImageDataset(Dataset):
         return captions_as_list
 
     def to_huggingface_dataset(self):
-        return self.dataset.select_columns(["pixel_values", "caption"])
+        return self.dataset.select_columns(["image", "caption"])

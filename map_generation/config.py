@@ -1,6 +1,6 @@
 CHECKPOINTS_DIR = "model"
 LOGS_DIR = "logs"
-DATA_DIR = "mprzymus/osm_tiles_large"
+DATA_DIR = "mprzymus/text2tile_small"
 BASE_MODEL_NAME = "runwayml/stable-diffusion-v1-5"
 BATCH_SIZE = 8
 DEVICE = "cuda"

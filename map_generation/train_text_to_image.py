@@ -56,7 +56,7 @@ from map_generation.config import (
     N_COLUMNS,
     get_unet,
 )
-from map_generation.osm_dataset import TextToImageDataset
+from map_generation.osm_dataset import TokenizedDataset
 
 if is_wandb_available():
     import wandb
@@ -726,9 +726,8 @@ def main():
     # In distributed training, the load_dataset function guarantees that only one local process can concurrently
     # download the dataset.
     if args.dataset_name is not None:
-        dataset = TextToImageDataset(
+        dataset = TokenizedDataset(
             path=args.dataset_name,
-            n_columns=N_COLUMNS,
             cache_dir=os.path.join(args.output_dir, CACHE_DIR),
             tokenizer_path=args.pretrained_model_name_or_path,
         ).to_huggingface_dataset()

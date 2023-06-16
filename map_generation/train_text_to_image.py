@@ -21,6 +21,7 @@ from pathlib import Path
 
 import accelerate
 import datasets
+import diffusers
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -29,12 +30,6 @@ import transformers
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import ProjectConfiguration, set_seed
-from huggingface_hub import create_repo, upload_folder
-from packaging import version
-from tqdm.auto import tqdm
-from transformers import CLIPTextModel, CLIPTokenizer
-
-import diffusers
 from diffusers import (
     AutoencoderKL,
     DDPMScheduler,
@@ -45,19 +40,23 @@ from diffusers.optimization import get_scheduler
 from diffusers.training_utils import EMAModel
 from diffusers.utils import check_min_version, deprecate, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
+from huggingface_hub import create_repo, upload_folder
+from packaging import version
+from tqdm.auto import tqdm
+from transformers import CLIPTextModel, CLIPTokenizer
 
 from map_generation.config import (
+    BASE_MODEL_NAME,
+    BATCH_SIZE,
     CACHE_DIR,
     CHECKPOINTS_DIR,
     DATA_DIR,
     EPOCHS,
+    LEARNING_RAGE,
     N_COLUMNS,
-    BASE_MODEL_NAME,
     get_unet,
-    BATCH_SIZE,
-    LEARNING_RAGE
 )
-from map_generation.osm_dataset import TextToImageDataset
+from map_generation.osm_dataset import TokenizedDataset
 
 if is_wandb_available():
     import wandb
@@ -79,7 +78,7 @@ def log_validation(
     logger.info("Running validation... ")
 
     pipeline = StableDiffusionPipeline.from_pretrained(
-        BASE_MODEL_NAME,
+        args.pretrained_model_name_or_path,
         vae=vae,
         text_encoder=text_encoder,
         tokenizer=tokenizer,
@@ -504,14 +503,15 @@ def main():
     logging_dir = os.path.join(args.output_dir, args.logging_dir)
 
     accelerator_project_config = ProjectConfiguration(
-        total_limit=args.checkpoints_total_limit
+        total_limit=args.checkpoints_total_limit,
+        logging_dir=logging_dir,
+        project_dir=args.output_dir,
     )
 
     accelerator = Accelerator(
         gradient_accumulation_steps=args.gradient_accumulation_steps,
         mixed_precision=args.mixed_precision,
         log_with=args.report_to,
-        logging_dir=logging_dir,
         project_config=accelerator_project_config,
     )
 
@@ -557,13 +557,17 @@ def main():
         revision=args.revision,
     )
 
-    empty_token: torch.Tensor = tokenizer(
-        "",
-        max_length=tokenizer.model_max_length,
-        padding="max_length",
-        truncation=True,
-        return_tensors="pt",
-    )["input_ids"].squeeze().to(accelerator.device)
+    empty_token: torch.Tensor = (
+        tokenizer(
+            "",
+            max_length=tokenizer.model_max_length,
+            padding="max_length",
+            truncation=True,
+            return_tensors="pt",
+        )["input_ids"]
+        .squeeze()
+        .to(accelerator.device)
+    )
 
     text_encoder = CLIPTextModel.from_pretrained(
         args.pretrained_model_name_or_path,
@@ -722,8 +726,10 @@ def main():
     # In distributed training, the load_dataset function guarantees that only one local process can concurrently
     # download the dataset.
     if args.dataset_name is not None:
-        dataset = TextToImageDataset(
-            path=args.dataset_name, n_columns=N_COLUMNS, cache_dir= os.path.join(args.output_dir, CACHE_DIR)
+        dataset = TokenizedDataset(
+            path=args.dataset_name,
+            cache_dir=os.path.join(args.output_dir, CACHE_DIR),
+            tokenizer_path=args.pretrained_model_name_or_path,
         ).to_huggingface_dataset()
     else:
         raise Exception("No dataset")

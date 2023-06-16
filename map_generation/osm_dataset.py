@@ -1,11 +1,13 @@
 import datetime
 import os
-from torch.utils.data import Dataset
-from datasets import load_dataset
+
 import pandas as pd
 import torch
 import torchvision.transforms as transforms
+from datasets import load_dataset
+from torch.utils.data import Dataset
 from transformers import CLIPTokenizer
+
 from map_generation.config import BASE_MODEL_NAME
 
 
@@ -31,7 +33,12 @@ def _create_str_from_field(field, value):
     space = " "
     underscore = "_"
     str_field = str(field).replace("_yes", "").replace(underscore, space)
-    return f"{value} {str_field}" + ("s " if value > 1 and len(str_field) != 0 else space) + " , "
+    return (
+        f"{value} {str_field}"
+        + ("s " if value > 1 and len(str_field) != 0 else space)
+        + " , "
+    )
+
 
 class TokenizedDataset(Dataset):
     def __init__(
@@ -44,14 +51,11 @@ class TokenizedDataset(Dataset):
         self.tokenizer = CLIPTokenizer.from_pretrained(
             tokenizer_path, subfolder="tokenizer"
         )
-        self.dataset = (
-            load_dataset(path, cache_dir=cache_dir)
-            .map(self.prepare_data, batched=True)
-            .with_format("pt")
-        )
+        self.dataset = load_dataset(path, cache_dir=cache_dir)
 
     def prepare_data(self, examples):
         examples["input_ids"] = self.tokenize(examples)
+        examples["pixel_values"] = [torch.tensor(img) for img in examples["pixel_values"]]
         return examples
 
     def __len__(self):
@@ -71,12 +75,13 @@ class TokenizedDataset(Dataset):
             padding="max_length",
             truncation=True,
             return_tensors="pt",
-        )["input_ids"].squeeze()
+        )["input_ids"]
 
         return caption_tensor
 
     def to_huggingface_dataset(self):
-        return self.dataset.select_columns(["pixel_values", "input_ids"])
+        return self.dataset.with_transform(self.prepare_data)
+
 
 class TextToImageDataset(Dataset):
     def __init__(

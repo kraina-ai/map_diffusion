@@ -69,7 +69,7 @@ class TokenizedDataset(Dataset):
         self.tokenizer = CLIPTokenizer.from_pretrained(
             tokenizer_path, subfolder="tokenizer"
         )
-        self.dataset = load_dataset(path, cache_dir=cache_dir)
+        self.dataset = load_dataset(path, cache_dir=cache_dir).with_transform(self.prepare_data)
 
     def prepare_data(self, examples):
         examples["input_ids"] = self.tokenize(examples)
@@ -99,7 +99,7 @@ class TokenizedDataset(Dataset):
         return caption_tensor
 
     def to_huggingface_dataset(self):
-        return self.dataset.with_transform(self.prepare_data)
+        return self.dataset
 
 
 class TextToImageDataset(Dataset):
@@ -132,9 +132,9 @@ class TextToImageDataset(Dataset):
 
     def __getitem__(self, index) -> tuple[torch.Tensor, torch.Tensor]:
         record = self.dataset["train"][index]
-        caption_tensor = record["input_ids"]
-        img = record["pixel_values"]
-        return (img, caption_tensor)
+        caption = record["caption"]
+        img = record["image"]
+        return (img, caption)
 
     def prepare_text(self, records):
         df = pd.DataFrame(dict(records)).drop(columns=["image"])

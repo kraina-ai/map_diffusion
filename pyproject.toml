@@ -42,6 +42,11 @@ dependencies = [
 requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
+
+[project.optional-dependencies]
+prod = [
+    "streamlit>=1.23.1",
+]
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"

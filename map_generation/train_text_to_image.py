@@ -459,6 +459,12 @@ def parse_args():
         ),
     )
     parser.add_argument(
+        "--logging_step",
+        type=int,
+        default=1,
+        help=("Make logs every nth train  step"),
+    )
+    parser.add_argument(
         "--custom_unet",
         type=bool,
         default=False,
@@ -982,7 +988,8 @@ def main():
                     ema_unet.step(unet.parameters())
                 progress_bar.update(1)
                 global_step += 1
-                accelerator.log({"train_loss": train_loss}, step=global_step)
+                if (global_step % args.logging_step) == 0:
+                    accelerator.log({"train_loss": train_loss}, step=global_step)
                 train_loss = 0.0
 
                 if global_step % args.checkpointing_steps == 0:

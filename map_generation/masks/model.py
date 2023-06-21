@@ -45,11 +45,13 @@ class Unet(nn.Module):
 
 
 class SegmentationModel(nn.Module):
-    def __init__(self, segmentation_base: nn.Module, out_conv_in=21) -> None:
+    def __init__(self, segmentation_base: nn.Module, out_conv_in=None) -> None:
         super().__init__()
         self.model = segmentation_base
         self.out_layer = (
-            nn.Conv2d(out_conv_in, 1, 1) if out_conv_in is not None else nn.Identity()
+            nn.Conv2d(out_conv_in, 1, 1)
+            if out_conv_in is not None
+            else lambda x: x[:, 0, ...].unsqueeze(1)
         )
 
     def forward(self, x):

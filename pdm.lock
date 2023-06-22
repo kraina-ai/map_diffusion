@@ -1696,6 +1696,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "stqdm"
+version = "0.0.5"
+requires_python = ">=3.7.2,<4.0.0"
+summary = "Easy progress bar for streamlit based on the awesome streamlit.progress and tqdm"
+dependencies = [
+    "streamlit>=0.66",
+    "tqdm>=4.50",
+]
+
+[[package]]
 name = "streamlit"
 version = "1.23.1"
 requires_python = ">=3.7, !=3.9.7"
@@ -2079,7 +2089,7 @@ summary = "Backport of pathlib-compatible object wrapper for zip files"
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:5326c93888fdca833c332e0a0a4905b3c9734deb21502fd8a6e3c538abbaa79d"
+content_hash = "sha256:3e28a68be53fd9afbc8cb2924b41cbe992c0d0b51431459f8f56ac03f9280ba9"
 
 [metadata.files]
 "absl-py 1.4.0" = [
@@ -4257,6 +4267,10 @@ content_hash = "sha256:5326c93888fdca833c332e0a0a4905b3c9734deb21502fd8a6e3c538a
 "stack-data 0.6.2" = [
     {url = "https://files.pythonhosted.org/packages/6a/81/aa96c25c27f78cdc444fec27d80f4c05194c591465e491a1358d8a035bc1/stack_data-0.6.2-py3-none-any.whl", hash = "sha256:cbb2a53eb64e5785878201a97ed7c7b94883f48b87bfb0bbe8b623c74679e4a8"},
     {url = "https://files.pythonhosted.org/packages/db/18/aa7f2b111aeba2cd83503254d9133a912d7f61f459a0c8561858f0d72a56/stack_data-0.6.2.tar.gz", hash = "sha256:32d2dd0376772d01b6cb9fc996f3c8b57a357089dec328ed4b6553d037eaf815"},
+]
+"stqdm 0.0.5" = [
+    {url = "https://files.pythonhosted.org/packages/08/e3/63cf2a221dc4c5894c2e42a7916ddcde8e5846f9551c2e9ed83024934fa3/stqdm-0.0.5-py3-none-any.whl", hash = "sha256:3177858c1ce5244821f13cc7cbd88a6dc8f154ef1bd12d2fa3342f2a9caf8843"},
+    {url = "https://files.pythonhosted.org/packages/6b/f4/770b463dd67fb3bd0204bd3d35423c838e58a5f78f97bf98730b9b1cb991/stqdm-0.0.5.tar.gz", hash = "sha256:1bed78e60068da3afc7c6d87a5388006036633aa2fe2e19fa7db46483ef1227e"},
 ]
 "streamlit 1.23.1" = [
     {url = "https://files.pythonhosted.org/packages/7b/e9/d1937b920b79f6742d465679d780ff982ee0892cf535e1471ec08ed6470a/streamlit-1.23.1.tar.gz", hash = "sha256:af95a78f9d291f12f779cf66a2bdadfafd8a46fe4fcc6ed281492640ed37bf1e"},

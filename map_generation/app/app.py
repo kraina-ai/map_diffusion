@@ -1,5 +1,6 @@
 import pandas as pd
 import streamlit as st
+from model_wrapper import Model
 from PIL import Image
 
 from map_generation.osm_dataset import create_sentence
@@ -33,7 +34,6 @@ class StreamlitApp:
         )
         self.columns[1].image(img)
         self.columns[1].markdown(caption)
-        from model_wrapper import Model
 
         self.model = Model()
 

@@ -17,7 +17,9 @@ def setup_args():
 class Model:
     print("creating model")
     args = setup_args()
-    model = StableDiffusionPipeline.from_pretrained(args.model_path, safety_checker=None).to("cuda")
+    model = StableDiffusionPipeline.from_pretrained(
+        args.model_path, safety_checker=None
+    ).to("cuda")
     print("model created")
 
     def generate_image(self, caption: str):

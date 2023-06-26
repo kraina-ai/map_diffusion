@@ -13,7 +13,7 @@ class StreamlitApp:
         with self.columns[0]:
             self.data = {
                 "building_yes": st.slider(
-                    "residential buildings",
+                    "buildings",
                     0,
                     50,
                 ),
@@ -22,8 +22,10 @@ class StreamlitApp:
                     0,
                     5,
                 ),
-                "water": st.slider("natural_water", 0, 5),
-                "park": st.slider("leisure_park", 0, 5),
+                "water_lake": st.slider("lake", 0, 5),
+                "leisure_park": st.slider("park", 0, 5),
+                "amenity_parking": st.slider("parking", 0, 5),
+                "leisure_playground": st.slider("playground", 0, 5),
             }
             self.button = st.button(label="Generate!", on_click=self.generate_image)
 

@@ -35,8 +35,8 @@ def _create_str_from_field(field, value):
     str_field = str(field).replace("_yes", "").replace(underscore, space)
     return (
         f"{value} {str_field}"
-        + ("s " if value > 1 and len(str_field) != 0 else space)
-        + " , "
+        + ("s " if value > 1 and len(str_field) != 0 else "")
+        + ", "
     )
 
 
@@ -69,7 +69,9 @@ class TokenizedDataset(Dataset):
         self.tokenizer = CLIPTokenizer.from_pretrained(
             tokenizer_path, subfolder="tokenizer"
         )
-        self.dataset = load_dataset(path, cache_dir=cache_dir).with_transform(self.prepare_data)
+        self.dataset = load_dataset(path, cache_dir=cache_dir).with_transform(
+            self.prepare_data
+        )
 
     def prepare_data(self, examples):
         examples["input_ids"] = self.tokenize(examples)

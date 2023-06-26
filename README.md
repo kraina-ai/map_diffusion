@@ -1,5 +1,7 @@
 # map_generation
 
+[![DOI](https://zenodo.org/badge/617960213.svg)](https://zenodo.org/badge/latestdoi/617960213)
+
 ## Project init
 
 1. Install [PDM](https://pdm.fming.dev/latest) (only if not already installed)

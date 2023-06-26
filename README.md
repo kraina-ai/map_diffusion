@@ -34,3 +34,19 @@ To see workflow process use notebooks from workflow_raster. It also contains les
 - `docker run -it --gpus all -v  ./logs_cont:/app/result_path diffusion  `
 - to monitor logs run `tensorboard --logdir logs_cont/logs `
 - after training model is located inside log_cont directory
+
+
+## Demo app
+
+Demo app is available! To  run it with existing model use:
+
+```
+pdm sync -G prod 
+streamlit run map_generation/app/app.py 
+```
+
+You can also use existing docker image:
+```
+docker pull mprzymus/diffusion_demo
+docker run --gpus 1 -p 6661:5000 mprzymus/diffusion_demo
+```

@@ -13,9 +13,9 @@ LEARNING_RAGE = 1e-5
 N_COLUMNS = 5
 
 road_tags = get_popular_tags(in_wiki_only=True)
-{
+tags_to_use = {
     "railway": road_tags["railway"],
     "highway": road_tags["highway"],
 }
 
-TAGS = HEX2VEC_FILTER | road_tags
+TAGS = HEX2VEC_FILTER | tags_to_use

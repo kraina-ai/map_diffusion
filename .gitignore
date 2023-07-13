@@ -1,5 +1,7 @@
 *models
 *model
+**/cache
+**/files
 *logs
 /__pycache__
 /.ipynb_checkpoints
@@ -20,3 +22,7 @@ map_generation/EDA/**/*.mvt
 **/__pycache__
 **/.ipynb_checkpoints
 logs_cont/
+.venv
+.pytest_cache
+.pdm-build
+.mypy_cache

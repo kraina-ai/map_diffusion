@@ -1052,9 +1052,10 @@ def main():
         if args.push_to_hub:
             upload_folder(
                 repo_id=repo_id,
-                folder_path=args.output_dir,
+                folder_path=args.output_dir + "/model",
                 commit_message="End of training",
                 ignore_patterns=["step_*", "epoch_*"],
+                token=args.hub_token
             )
 
     accelerator.end_training()

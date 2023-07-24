@@ -22,12 +22,15 @@ def get_columns(row, n_columns=5) -> pd.Series:
 
 def create_sentence(row: pd.Series, n_columns: int = 5) -> str:
     geocode = row["geocode"]
-    row = row.drop(columns=["file_name", "geocode"])
-    columns = get_columns(row, n_columns)
+    name = row["name"]
+    row = row.dropna()
+    row_only_digits = row[row.astype(str).str.isdigit()]
+    columns = get_columns(row_only_digits, n_columns)
     ls = [
         _create_str_from_field(field, value) for (field, value) in row[columns].items()
     ]
-    text_comma_end = f"OSM from {geocode} of area containing: " + "".join(ls)
+    area_name = " " + name if name is not None else ""
+    text_comma_end = f"OSM from {geocode} of{area_name} area containing: " + "".join(ls)
     return text_comma_end[:-2] + "."
 
 

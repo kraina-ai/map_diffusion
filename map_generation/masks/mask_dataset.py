@@ -1,12 +1,14 @@
+import glob
+import os
 from pathlib import Path
+
+import pandas as pd
 import torch.utils.data as t_data
+from functional import seq
+from sklearn.utils import shuffle
 from torchvision.io import read_image
 from torchvision.io.image import ImageReadMode
-import glob
-from functional import seq
-import pandas as pd
-import os
-from sklearn.utils import shuffle
+
 
 class SegmentationDataset(t_data.Dataset):
     def __init__(self, root: Path, root_contrain_cities: bool = False) -> None:
